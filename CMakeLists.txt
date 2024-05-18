@@ -1,22 +1,34 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.29)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
+set(CMAKE_DISABLE_SOURCE_CHANGES ON)
 
 # set the project name
-project(prett)
+project(prett LANGUAGES CXX)
 
-# add the executable
-add_executable(${PROJECT_NAME} src/main.cpp)
+set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
+find_program(CLANG_TIDY NAMES clang-tidy)
+if(CLANG_TIDY)
+	set(CMAKE_CXX_CLANG_TIDY ${CLANG_TIDY})
+endif()
 
-# gulrak/filesystem
-add_subdirectory(lib/fs)
-target_link_libraries(${PROJECT_NAME} ghc_filesystem)
-
-# fmtlib/fmt
-add_subdirectory(lib/fmt)
-target_link_libraries(${PROJECT_NAME} fmt::fmt)
-
-add_subdirectory(lib/ccore)
-target_link_libraries(${PROJECT_NAME} ccore)
+add_executable(prett src/main.cpp src/color.cpp)
+target_include_directories(
+	prett
+	PUBLIC
+	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+	$<INSTALL_INTERFACE:include>
+)
+target_compile_options(
+	prett
+	PRIVATE
+	-Werror
+	-Wall
+	-Wextra
+	-Wconversion
+	-Wsign-conversion
+)
