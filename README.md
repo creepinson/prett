@@ -1,22 +1,24 @@
 # prett 🚀
 
-A prettifier for sh commands, inspired by [ptSh](https://github.com/jszczerbinsky/ptSh).
+Prettier shell commands, inspired by [ptSh](https://github.com/jszczerbinsky/ptSh).
 
 ![ls command demo](assets/ls.png)
 
 ## Prequisites
 
--   A font that is capable of displaying nerd icons.
--   CMake, Make, And Git
--   A shell (eg.zsh, bash)
--   A ansi color-compatible terminal (eg. Alacritty).
+- A font that is capable of displaying nerd icons.
+- CMake, Ninja, And Git
+- A shell (eg.zsh, bash)
+- A ansi color-compatible terminal (eg. Alacritty).
 
 ## Building
 
-```bash
-git clone --recurse-submodules https://github.com/creepinson/prett
+```sh
+git clone https://github.com/theoparis/prett
 cd prett
-./compile.sh ~/bin # The path to copy the binary to, defaults to ~/bin
+cmake -B build -G Ninja -DCMAKE_INSTALL_PREFIX=$HOME/.local/bin
+cmake --build build
+cmake --install build
 ```
 
 ## Usage
@@ -25,7 +27,7 @@ Run `prett sub-command`.
 
 ### Compatible Commands
 
--   `ls`
+- `ls`
 
 ## Shell Aliases
 
